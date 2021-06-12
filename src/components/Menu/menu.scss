@@ -1,0 +1,28 @@
+@import '../colors.scss';
+
+.side-menu {
+  background-color: $white !important;
+  height: 100vh;
+
+  > div {
+
+    a {
+      color: $gray;
+      font-size: 18px;
+      text-decoration: none;
+      padding: 20px 5px;
+
+      &.active, &:hover {
+        color: $lightblue;
+      }
+    }
+  }
+
+  img {
+    width: 100%;
+  }
+
+  svg {
+    margin-right: 15px;
+  }
+}

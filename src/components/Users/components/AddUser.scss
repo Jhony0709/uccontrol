@@ -1,0 +1,22 @@
+@import '../../colors.scss';
+
+.add-user {
+  .modal-header {
+    background-color: $mainDarkBlue;
+    color: $white;
+  }
+
+  .user-form {
+    .row {
+      margin: 20px 0;
+    }
+
+    label {
+      color: $mainDarkBlue;
+    }
+
+    .form-control {
+      border: 1px solid $lightblue;
+    }
+  }
+}

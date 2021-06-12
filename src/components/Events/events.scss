@@ -1,0 +1,39 @@
+.events-wrapper {
+  margin-top: 65px;
+  background-color: $white;
+  border-radius: 10px;
+
+  .row {
+    margin: 10px 0;
+  }
+
+  h1 {
+    font-size: 18px;
+    color: $mainDarkBlue
+  }
+
+  .event-card {
+    &--side {
+      color: $mainDarkBlue;
+      padding: 0;
+      text-align: center;
+    }
+
+    &--date {
+      font-size: 20px;
+    }
+
+    &--month {
+      font-size: 14px;
+    }
+  }
+}
+
+.select-event {
+  background-color: $white;
+  border-radius: 10px;
+  border-top: $green 1px solid;
+  cursor: pointer;
+  margin: 5px;
+  padding: 15px;
+}
