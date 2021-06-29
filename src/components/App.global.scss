@@ -3,6 +3,7 @@
 @import './Users/components/AddUser.scss';
 @import './DatePicker/style.css';
 @import './Events/events.scss';
+@import './Associate/associate.scss';
 
 body {
   background-color: $lightblue !important;
@@ -172,6 +173,21 @@ hr {
   }
 }
 
+.form-report {
+  background: $white;
+  border-top: $green 10px solid;
+  border-radius: 10px;
+  margin-top: 20px;
+  padding: 20px 40px;
+}
+
+.table-container {
+  background: $white;
+  margin: 10px;
+  padding: 10px;
+  border-top: $green 10px solid;
+  border-radius: 10px;
+}
 
 .form-check {
   position: absolute;
@@ -256,4 +272,25 @@ hr {
         }
     }
   }
+}
+
+.toast {
+  &.danger {
+    background-color: rgba(220, 53, 69, 0.8);
+  }
+}
+
+.details-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+
+  a {
+    color: $white;
+  }
+}
+
+table {
+  font-size: 14px;
 }

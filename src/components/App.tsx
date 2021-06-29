@@ -11,6 +11,7 @@ import SessionUser from './Login/SessionUser';
 import Users from './Users';
 import Events from './Events';
 import Register from './Register';
+import Associate from './Associate';
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
           <Menu />
           <SessionUser />
           <Switch>
+            <Route exact path="/associate" component={Associate} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/events" component={Events} />
             <Route exact path="/reports" component={Reports} />

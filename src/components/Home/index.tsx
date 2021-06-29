@@ -7,28 +7,6 @@ import mainLogo from '../../../assets/main.png';
 
 const Home = () => {
 
-  console.log(useLocation());
-
-  const [email, setEmail] = useState('');
-  const [pwd, setPwd] = useState('');
-  const [requestState, setRequestState] = useState('');
-
-  ipcRenderer.on('asynchronous-reply', (event, arg) => {
-    console.log("Hiii", arg) // prints "Hiii pong"
-  });
-
-  const handleHome = () => {
-    console.log(email, pwd);
-    const acceptedEmail = 'jhony@ucc.edu.co';
-    const acceptedPwd = '1234';
-
-    if (email === acceptedEmail && pwd === acceptedPwd) {
-      return <Redirect to='/home'/>
-    } else {
-      setRequestState('error');
-    }
-  }
-
   return (
     <Col md={9}>
       <img src={mainLogo} alt="main logo" width="600" />
