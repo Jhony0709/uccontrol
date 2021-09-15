@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Container, Row, Col, Jumbotron, Modal, Toast } from 'react-bootstrap';
 import { SiNfc } from 'react-icons/si';
 import { uri } from '../constants';
+import { ipcRenderer } from 'electron';
 import RegEst from './components/RegEst';
 
 const Register = () => {
@@ -11,6 +12,39 @@ const Register = () => {
   const [showRegEst, setShowRegEst] = useState(false);
   const [status, setStatus] = useState(false);
   const [relatedEvent, setRelatedEvent] = useState({});
+  const [estudiante, setEstudiante] = useState({});
+  const [requestState, setRequestState] = useState('');
+
+  const registerStudent = (event, arg) => {
+    const cardKey = arg.atr.toString();
+    
+    axios
+      .get(`${uri}/users/card?card=${cardKey}`)
+      .then((res) => {
+        console.log(res);
+        if (res.data.length) {
+          const estudiante = res.data[0];
+          setEstudiante(estudiante);
+          setRequestState('success');
+          ipcRenderer.removeListener('card-inserted', registerStudent);
+        } else {
+          setRequestState('error');
+        }
+      })
+      .catch(err => {
+        console.log(err)
+        setRequestState('error');
+        ipcRenderer.removeListener('card-inserted', registerStudent);
+      });
+  };
+
+  useEffect(() => {
+    if (showRegEst) {
+      ipcRenderer.on('card-inserted', registerStudent);
+    } else {
+      ipcRenderer.removeListener('card-inserted', registerStudent);
+    }
+  }, [showRegEst]);
 
   useEffect(() => {
     axios
@@ -81,8 +115,16 @@ const Register = () => {
         <Modal show={showRegEst} size="lg">
           <RegEst
             status={() => setStatus(true)}
-            handleClose={() => setShowRegEst(false)}
+            handleClose={(state) => {
+              setEstudiante({});
+              setRequestState(state);
+              setShowRegEst(false);
+            }}
             event={relatedEvent}
+            estudiante={estudiante}
+            setEstudiante={setEstudiante}
+            requestState={requestState}
+            setRequestState={setRequestState}
           />
         </Modal>
         <Toast
@@ -91,7 +133,10 @@ const Register = () => {
           delay={3000}
           autohide
         >
-          <Toast.Body>Estudiante registrado correctamente</Toast.Body>
+          <Toast.Body>
+            {requestState === 'success' && 'Estudiante registrado correctamente'}
+            {requestState === 'error' && 'No es posible registrar dos veces el mismo día para el evento seleccionado'}
+          </Toast.Body>
         </Toast>
       </Container>
     </Col>

@@ -3,14 +3,20 @@ import axios from 'axios';
 import { Alert, Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { uri } from '../../constants';
+import { validateNoAlphaNumeric, validateEmail } from '../../validations';
 
-const AddUser = ({ handleClose, status, newUser }) => {
+const AddUser = ({handleClose, status, newUser}) => {
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
   const [email, setEmail] = useState('');
   const [pwd, setPwd] = useState('');
   const [rol, setRol] = useState('');
   const [rolInfo, setRolInfo] = useState([]);
+  const [errorState, setErrorState] = useState({
+    nombre: false,
+    apellido: false,
+    email: false,
+  });
   const [requestState, setRequestState] = useState('');
 
   useEffect(() => {
@@ -43,7 +49,9 @@ const AddUser = ({ handleClose, status, newUser }) => {
   };
 
   const buttonDisabled = () => {
-    return !(nombre && apellido && email && rol !== '' && pwd);
+    const {nombre, apellido, email} = errorState;
+    console.log(!nombre && !apellido && !email);
+    return !nombre && !apellido && !email;
   };
 
   return (
@@ -61,6 +69,12 @@ const AddUser = ({ handleClose, status, newUser }) => {
                   type="text"
                   placeholder="Nombre"
                   onChange={(e) => setNombre(e.target.value)}
+                  onBlur={() => {
+                    !validateNoAlphaNumeric(nombre)
+                      ? setErrorState({...errorState, nombre: true})
+                      : setErrorState({...errorState, nombre: false})
+                  }}
+                  isInvalid={errorState.nombre}
                 />
               </Col>
               <Col>
@@ -69,6 +83,12 @@ const AddUser = ({ handleClose, status, newUser }) => {
                   type="text"
                   placeholder="Apellido"
                   onChange={(e) => setApellido(e.target.value)}
+                  onBlur={() => {
+                    !validateNoAlphaNumeric(apellido)
+                      ? setErrorState({...errorState, apellido: true})
+                      : setErrorState({...errorState, apellido: false})
+                  }}
+                  isInvalid={errorState.apellido}
                 />
               </Col>
             </Row>
@@ -80,6 +100,12 @@ const AddUser = ({ handleClose, status, newUser }) => {
                   placeholder="Email"
                   onChange={(e) => setEmail(e.target.value)}
                   required
+                  onBlur={() => {
+                    !validateEmail(email)
+                      ? setErrorState({...errorState, email: true})
+                      : setErrorState({...errorState, email: false})
+                  }}
+                  isInvalid={errorState.email}
                 />
               </Col>
               <Col>
@@ -118,7 +144,7 @@ const AddUser = ({ handleClose, status, newUser }) => {
         <Button
           className="btn-send"
           onClick={postUser}
-          disabled={buttonDisabled()}
+          disabled={!buttonDisabled()}
           type="submit"
         >
           Enviar

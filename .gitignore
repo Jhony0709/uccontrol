@@ -31,7 +31,6 @@ node_modules
 .DS_Store
 
 # App packaged
-release
 src/main.prod.js
 src/main.prod.js.map
 src/renderer.prod.js

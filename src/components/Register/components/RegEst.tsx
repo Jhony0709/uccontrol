@@ -2,52 +2,23 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button, Container, Jumbotron, Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { ipcRenderer } from 'electron';
 import { uri } from '../../constants';
 import nfcLogo from '../../../../assets/NFC.gif';
-import { useLocation } from 'react-router-dom';
 
-const RegEst = ({ handleClose, status, event }) => {
-  const [estudiante, setEstudiante] = useState({});
-  const [requestState, setRequestState] = useState('');
-  const location = useLocation();
-
-  ipcRenderer.on('card-inserted', (event, arg) => {
-    const cardKey = arg.atr.toString();
-
-    console.log(cardKey);
-    if (location.pathname === '/register') {
-      axios
-        .get(`${uri}/users/card?card=${cardKey}`)
-        .then((res) => {
-          console.log(res);
-          if (res.data.length) {
-            const estudiante = res.data[0];
-            setEstudiante(estudiante);
-            setRequestState('success');
-          } else {
-            setRequestState('error');
-          }
-        })
-        .catch(err => {
-          console.log(err)
-          setRequestState('error');
-        });
-    }
-  });
-
+const RegEst = ({ handleClose, status, event, estudiante, setEstudiante, requestState, setRequestState }) => {
   const postReg = () => {
     axios
       .post(`${uri}/events/register`, { id_estudiante: estudiante.id, id_evento: event.id })
       .then((res) => {
         if (res.status === 200) {
           status();
-          handleClose();
+          handleClose('');
         }
       })
       .catch(err => {
         console.log(err)
-        setRequestState('error');
+        status();
+        handleClose('error')
       });
   };
 
