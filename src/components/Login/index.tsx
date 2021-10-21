@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Alert, Button, Col, Form } from 'react-bootstrap';
 import mainLogo from '../../../assets/main.png';
 import { uri } from '../constants';
+import { validateEmail } from '../validations';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -43,6 +44,12 @@ const Login = () => {
                   placeholder="Email"
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={requestState === 'loading'}
+                  onBlur={() => {
+                    !validateEmail(email)
+                      ? setRequestState('emailError')
+                      : setRequestState('');
+                  }}
+                  isInvalid={requestState === 'emailError'}
                 />
               </Form.Group>
 
@@ -66,7 +73,7 @@ const Login = () => {
               <Button
                 variant="primary"
                 onClick={getUser}
-                disabled={ requestState === 'loading' }
+                disabled={ requestState === 'loading' || requestState === 'emailError' }
               >
                 Enviar
               </Button>

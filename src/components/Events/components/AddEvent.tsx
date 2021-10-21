@@ -40,6 +40,14 @@ const AddEvent = ({ handleClose, status, newEvent, selectedEvent }) => {
   );
   const [requestState, setRequestState] = useState('');
 
+  const isValidRange = () => {
+    if (dateFrom && dateTo) {
+      const diff = moment(dateFrom).diff(moment(dateTo));
+      return diff > 0;
+    }
+    return false;
+  };
+
   useEffect(() => {
     axios
       .get(`${uri}/events/types`)
@@ -101,7 +109,7 @@ const AddEvent = ({ handleClose, status, newEvent, selectedEvent }) => {
   };
 
   const buttonDisabled = () => {
-    return !(nombre && type !== '');
+    return !(nombre && type !== '' && dateFrom && dateTo && !isValidRange());
   };
 
   return (
@@ -159,6 +167,18 @@ const AddEvent = ({ handleClose, status, newEvent, selectedEvent }) => {
                 />
               </Col>
             </Row>
+            {isValidRange() && (
+              <Row
+                style={{
+                  textAlign: 'center',
+                  flexDirection: 'column',
+                  color: 'red',
+                  fontWeight: 'bold',
+                }}
+              >
+                <p>Fechas inválidas</p>
+              </Row>
+            )}
             <hr />
             <Row>
               <Col>

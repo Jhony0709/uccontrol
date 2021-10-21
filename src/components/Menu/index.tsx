@@ -57,12 +57,6 @@ const Menu = () => {
                   </>
                 )}
               </Col>
-              <Link to="/profile">
-                <Nav.Item>
-                  <AiTwotoneSetting />
-                  Perfil
-                </Nav.Item>
-              </Link>
             </div>
           </Nav>
         </Col>

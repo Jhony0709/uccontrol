@@ -1,5 +1,5 @@
 {
-  "name": "Control UCC",
+  "name": "UCControl",
   "productName": "control-ucc",
   "version": "2.3.0",
   "description": "Electron application based on React, React Router, Webpack, React Hot Loader for rapid application development",
