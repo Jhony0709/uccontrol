@@ -109,7 +109,11 @@ const AddEvent = ({ handleClose, status, newEvent, selectedEvent }) => {
   };
 
   const buttonDisabled = () => {
-    return !(nombre && type !== '' && dateFrom && dateTo && !isValidRange());
+    if (type !== '1') {
+      return !(nombre && type !== '' && dateFrom && dateTo && !isValidRange());
+    }
+
+    return false;
   };
 
   return (
@@ -201,7 +205,7 @@ const AddEvent = ({ handleClose, status, newEvent, selectedEvent }) => {
               </Col>
             </Row>
             <Alert variant={'danger'} show={requestState === 'error'} onClose={() => setRequestState('')} dismissible>
-              Credenciales inválidas, intente nuevamente
+              Ups, hubo un error
             </Alert>
           </Form>
         </Container>

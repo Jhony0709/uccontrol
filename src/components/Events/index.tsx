@@ -26,8 +26,8 @@ const Events = () => {
       .then((res) => {
         console.log(res.data);
 
-        const extra = res.data.filter((e) => e.hora_fin === null);
-        const common = res.data.filter((e) => e.hora_fin !== null);
+        const extra = res.data.filter((e) => e.tipo_evento === 1);
+        const common = res.data.filter((e) => e.tipo_evento === 2);
 
         setEventsCommon(common);
         return setEventsExtra(extra);
@@ -83,7 +83,6 @@ const Events = () => {
           {eventsExtra.length && eventsExtra.map((event, i) => (
               <Card key={i} className="event-card" style={{ width: '10rem' }}>
                 <Card.Body>
-                  <AiFillEdit />
                   <Card.Title>{event.descripcion}</Card.Title>
                 </Card.Body>
               </Card>
